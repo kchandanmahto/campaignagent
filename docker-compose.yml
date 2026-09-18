@@ -1,0 +1,48 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: campaignagent-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: campaignagent
+      POSTGRES_USER: campaignagent
+      POSTGRES_PASSWORD: campaignagent
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - campaignagent_postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U campaignagent -d campaignagent" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: campaignagent-redis
+    restart: unless-stopped
+
+    ports:
+      - "6379:6379"
+
+    volumes:
+      - campaignagent_redis_data:/data
+
+    command: redis-server --appendonly yes
+
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+
+  campaignagent_postgres_data:
+
+  campaignagent_redis_data:

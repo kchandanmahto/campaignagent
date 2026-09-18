@@ -1,0 +1,26 @@
+# Web framework
+fastapi
+uvicorn[standard]
+
+# Configuration / validation
+pydantic
+pydantic-settings
+
+# Database
+sqlalchemy
+asyncpg
+psycopg[binary]
+alembic
+
+# Redis
+redis
+
+# HTTP
+httpx
+
+# Testing
+pytest
+pytest-asyncio
+
+# Code quality
+ruff
